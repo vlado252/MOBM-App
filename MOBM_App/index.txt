@@ -1,0 +1,52 @@
+СТРУКТУРА ПРОЕКТА MOBM
+======================
+/Models
+  - Enums.cs              (Role, Category)
+  - User.cs               (модель пользователя)
+  - Product.cs            (модель товара, IComparable)
+  - Order.cs              (Order, OrderItem)
+  - EmployeeRequest.cs    (заявка на трудоустройство)
+  - WarehouseModels.cs    (StockOperation, WarehouseStats)
+
+/Views
+  - MainWindow.xaml       (главное окно, меню, строка состояния)
+  - LoginPage.xaml        (форма входа)
+  - LoadingScreen.xaml    (прелоадер с прогрессом)
+  - AboutWindow.xaml      (о программе)
+  - HelpWindow.xaml       (справка)
+  - RegistrationPage.xaml (подача заявки на работу)
+  - StatusBarControl.xaml (строка состояния)
+  /Pages
+    - CatalogPage.xaml    (каталог мебели/сырья)
+    - OrderPage.xaml      (текущий заказ/корзина)
+    - WarehousePage.xaml  (склад сырья)
+    - HistoryPage.xaml    (история заказов + экспорт)
+    - DashboardPage.xaml  (графики и статистика)
+    - EmployeeRequestsPage.xaml (рассмотрение заявок)
+
+/ViewModels
+  - BaseViewModel.cs      (INotifyPropertyChanged)
+  - MainViewModel.cs      (логика каталога)
+  - OrderViewModel.cs     (корзина, события, команды)
+  - RelayCommand.cs       (ICommand)
+
+/Services
+  - DatabaseService.cs    (SQLite CRUD, 6 таблиц)
+  - EmailService.cs       (SMTP отправка)
+  - PrintService.cs       (печать заказов)
+  - ExportService.cs      (CSV/Excel экспорт)
+
+/Helpers
+  - DataStorage.cs        (глобальный CurrentUser)
+  - Permissions.cs        (права доступа по ролям)
+  - Validators.cs         (Regex валидация)
+
+/Resources
+  - Styles.xaml           (глобальные стили, ToolTip)
+
+/Database
+  - mobm.db               (SQLite база данных)
+
+readme.txt  - описание проекта
+index.txt   - структура файлов
+==================================================

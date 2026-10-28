@@ -1,0 +1,61 @@
+﻿<Page x:Class="MOBM_App.Views.Pages.HistoryPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="История заказов">
+	<Grid Margin="20">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+
+		<!-- Заголовок и кнопка экспорта -->
+		<Border Background="{StaticResource BgPanel}" CornerRadius="10" Padding="15" Margin="0,0,0,15">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="Auto"/>
+				</Grid.ColumnDefinitions>
+
+				<TextBlock Text="📜 ИСТОРИЯ ЗАКАЗОВ" FontSize="20" FontWeight="Bold"
+                           Foreground="White" VerticalAlignment="Center"/>
+
+				<Button Content="💾 Экспорт в CSV" Grid.Column="1"
+                        Style="{StaticResource ActionBtn}" Background="#2979FF"
+                        Click="Export_Click" Padding="15,8"/>
+			</Grid>
+		</Border>
+
+		<!-- Таблица истории заказов -->
+		<Border Background="{StaticResource BgPanel}" CornerRadius="10" Padding="5" Grid.Row="1">
+			<DataGrid x:Name="HistoryGrid" AutoGenerateColumns="False"
+                      IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False"
+                      CanUserSortColumns="True" HeadersVisibility="Column"
+                      Background="{StaticResource BgMain}" Foreground="White"
+                      GridLinesVisibility="Horizontal"
+                      HorizontalGridLinesBrush="#2A2A2A"
+                      RowBackground="#000000" AlternatingRowBackground="#111111">
+				<DataGrid.Columns>
+					<DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="60"/>
+					<DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat=dd.MM.yyyy HH:mm}" Width="150"/>
+					<DataGridTextColumn Header="Сумма, BYN" Binding="{Binding TotalPrice, StringFormat={}{0:N2}}" Width="120"/>
+					<DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="100"/>
+					<DataGridTextColumn Header="Оформил" Binding="{Binding UserName}" Width="*"/>
+
+					<!-- НОВЫЙ СТОЛБЕЦ С КНОПКОЙ ПРОСМОТРА -->
+					<DataGridTemplateColumn Header="Действие" Width="120">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<Button Content="👁️ Просмотреть"
+                                        Click="ViewOrder_Click"
+                                        Tag="{Binding Id}"
+                                        Background="#2979FF" Foreground="White"
+                                        Padding="10,6" Cursor="Hand"
+                                        BorderThickness="0" FontSize="12"/>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+				</DataGrid.Columns>
+			</DataGrid>
+		</Border>
+	</Grid>
+</Page>

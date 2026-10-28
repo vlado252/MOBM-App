@@ -1,0 +1,74 @@
+﻿<Window x:Class="MOBM_App.Views.AddPromoCodeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Добавление промокода" 
+        Height="539" Width="400"
+        WindowStartupLocation="CenterOwner"
+        Background="#1E1E1E"
+        Foreground="White"
+        ResizeMode="NoResize"
+        Icon="/Resources/icon.ico">
+
+    <Grid Margin="30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,20">
+            <TextBlock x:Name="TxtTitle" Text="➕ Новый промокод" FontSize="20" FontWeight="Bold" 
+                       Foreground="#00E676" HorizontalAlignment="Center"/>
+        </StackPanel>
+
+        <!-- Поля ввода -->
+        <StackPanel Grid.Row="1">
+            <TextBlock Text="Код промокода:" FontSize="13" Margin="0,0,0,5"/>
+            <TextBox x:Name="TxtCode" Padding="10,8" FontSize="14"
+                     Background="#2C2C2C" Foreground="White" BorderBrush="#444"
+                     BorderThickness="1" Margin="0,0,0,15"
+                     ToolTip="Например: SUMMER2026"/>
+
+            <TextBlock Text="Скидка (%):" FontSize="13" Margin="0,0,0,5"/>
+            <TextBox x:Name="TxtDiscount" Padding="10,8" FontSize="14"
+                     Background="#2C2C2C" Foreground="White" BorderBrush="#444"
+                     BorderThickness="1" Margin="0,0,0,15"
+                     ToolTip="Например: 10"/>
+
+            <TextBlock Text="Действует до:" FontSize="13" Margin="0,0,0,5"/>
+            <TextBox x:Name="TxtValidUntil" Padding="10,8" FontSize="14"
+         Background="#2C2C2C" Foreground="White" BorderBrush="#444"
+         BorderThickness="1" Margin="0,0,0,15"
+         ToolTip="Формат: ДД.ММ.ГГГГ (например: 31.12.2026)"/>
+
+            <TextBlock Text="Описание:" FontSize="13" Margin="0,0,0,5"/>
+            <TextBox x:Name="TxtDescription" Padding="10,8" FontSize="14"
+                     Background="#2C2C2C" Foreground="White" BorderBrush="#444"
+                     BorderThickness="1" Margin="0,0,0,15"
+                     ToolTip="Например: Летняя скидка 10%"/>
+
+            <CheckBox x:Name="ChkActive" Content="Активен" 
+                      Foreground="White" FontSize="14"
+                      IsChecked="True" Margin="0,0,0,15"/>
+        </StackPanel>
+
+        <!-- Кнопки -->
+        <Grid Grid.Row="2" Margin="0,20,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Content="Отмена" Click="Cancel_Click"
+                    Background="#FF1744" Foreground="White"
+                    Padding="15,10" Margin="0,0,10,0" Cursor="Hand"
+                    FontSize="14" BorderThickness="0"/>
+
+            <Button Grid.Column="1" Content="💾 Сохранить" Click="Save_Click"
+                    Background="#00E676" Foreground="White"
+                    Padding="15,10" Cursor="Hand"
+                    FontSize="14" BorderThickness="0"/>
+        </Grid>
+    </Grid>
+</Window>

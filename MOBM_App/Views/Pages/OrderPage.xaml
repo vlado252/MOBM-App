@@ -1,0 +1,155 @@
+﻿<Page x:Class="MOBM_App.Views.Pages.OrderPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Текущий заказ">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Таблица корзины -->
+        <DataGrid ItemsSource="{Binding CartItems}" AutoGenerateColumns="False"
+                  CanUserAddRows="False" HeadersVisibility="Column"
+                  Background="#000" Foreground="White">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Товар" Binding="{Binding Product.Name}" Width="*"/>
+                <DataGridTextColumn Header="Цена" Binding="{Binding Product.Price}" Width="100"/>
+
+                <DataGridTemplateColumn Header="Кол-во" Width="90">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding Quantity}"
+                                           VerticalAlignment="Center"
+                                           Margin="0,0,8,0"
+                                           MinWidth="20"
+                                           TextAlignment="Center"/>
+
+                                <Button Content="✏️"
+                                        ToolTip="Изменить количество"
+                                        Command="{Binding DataContext.ChangeQuantityCmd, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                        CommandParameter="{Binding}"
+                                        Background="Transparent"
+                                        Foreground="{StaticResource BtnBlue}"
+                                        BorderThickness="0"
+                                        Cursor="Hand"
+                                        Padding="2"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="Сумма" Binding="{Binding Sum}" Width="100"/>
+                <DataGridTemplateColumn Header="Действие" Width="80">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="❌"
+                                    Command="{Binding DataContext.RemoveCmd, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                    CommandParameter="{Binding}"
+                                    Background="Transparent"
+                                    Foreground="Red"
+                                    BorderThickness="0"
+                                    Cursor="Hand"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Итого, скидки и кнопки -->
+        <Border Background="#1E1E1E" Padding="20" CornerRadius="10" Grid.Row="1" Margin="0,10,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Поле ввода промокода -->
+                <Grid Grid.Row="0" Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Grid.Column="0" 
+                             Text="{Binding PromoCodeInput, UpdateSourceTrigger=PropertyChanged}"
+                             Padding="10,8" FontSize="14"
+                             Background="#2C2C2C" Foreground="White" 
+                             BorderBrush="#444" BorderThickness="1"
+                             ToolTip="Введите промокод, например: SUMMER2026"/>
+
+                    <Button Grid.Column="1" Content="🎁 Применить" 
+                            Command="{Binding ApplyPromoCodeCmd}"
+                            Background="#2979FF" Foreground="White"
+                            Padding="15,8" Margin="10,0,0,0"
+                            BorderThickness="0" Cursor="Hand"/>
+
+                    <Button Grid.Column="2" Content="✕" 
+                            Command="{Binding ClearPromoCodeCmd}"
+                            Background="#FF1744" Foreground="White"
+                            Padding="10,8" Margin="5,0,0,0"
+                            BorderThickness="0" Cursor="Hand"
+                            ToolTip="Удалить промокод"/>
+                </Grid>
+
+                <!-- Сумма до скидок -->
+                <StackPanel Grid.Row="1" Margin="0,0,0,10">
+                    <TextBlock Text="Сумма товаров:" Foreground="#B0B0B0" FontSize="14"/>
+                    <TextBlock Text="{Binding SubTotal, StringFormat={}{0:N2} BYN}" 
+                               Foreground="White" FontSize="18"/>
+                </StackPanel>
+
+                <!-- Блок скидок -->
+                <Border Grid.Row="2" 
+                        Background="#1B5E20" CornerRadius="8" Padding="15" 
+                        Margin="0,0,0,10"
+                        Visibility="{Binding HasDiscounts, Converter={StaticResource BooleanToVisibility}}">
+                    <StackPanel>
+                        <TextBlock Text="💰 Применённые скидки:" 
+                                   Foreground="#00E676" FontSize="14" FontWeight="Bold" 
+                                   Margin="0,0,0,5"/>
+
+                        <ItemsControl ItemsSource="{Binding DiscountsList}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="0,2,0,2" Foreground="#B9F6CA" FontSize="13">
+                                        <Run Text="{Binding Name, Mode=OneWay}" Foreground="#B9F6CA"/>
+                                        <Run Text=": " Foreground="#B9F6CA"/>
+                                        <Run Text="{Binding AmountText, Mode=OneWay}" Foreground="#FF1744" FontWeight="Bold"/>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <Separator Background="#444" Margin="0,10,0,10"/>
+
+                        <TextBlock Text="ИТОГО СКИДОК:" Foreground="#00E676" FontSize="16" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding DiscountAmountText}" 
+                                   Foreground="#FF1744" FontSize="20" FontWeight="Bold"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- ИТОГО К ОПЛАТЕ -->
+                <StackPanel Grid.Row="3" Margin="0,0,0,15">
+                    <TextBlock Text="ИТОГО К ОПЛАТЕ:" Foreground="#B0B0B0" FontSize="16"/>
+                    <TextBlock Text="{Binding TotalText}" 
+                               Foreground="#00E676" FontSize="28" FontWeight="Bold"/>
+                </StackPanel>
+
+                <!-- Кнопки -->
+                <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="🖨️ ПЕЧАТЬ" Style="{StaticResource ActionBtn}" Background="#FF9100" Margin="0,0,10,0"
+                            Click="Print_Click"/>
+                    <Button Content="✅ ОФОРМИТЬ" Style="{StaticResource ActionBtn}" Background="#00E676"
+                            Command="{Binding CheckoutCmd}" Height="40" Width="111"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

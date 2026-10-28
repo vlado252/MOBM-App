@@ -1,0 +1,102 @@
+﻿<Page x:Class="MOBM_App.Views.Pages.WarehousePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Склад (Сырьё)">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Статистика -->
+        <Grid Grid.Row="0" Margin="0,0,0,15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Background="#2C2C2C" CornerRadius="10" Padding="15" Margin="0,0,10,0">
+                <StackPanel>
+                    <TextBlock Text="Позиций сырья" Foreground="#B0B0B0" FontSize="12" TextWrapping="Wrap"/>
+                    <TextBlock x:Name="TxtTotalItems" Text="0" FontSize="24" FontWeight="Bold" Foreground="#2979FF"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="1" Background="#2C2C2C" CornerRadius="10" Padding="15" Margin="0,0,10,0">
+                <StackPanel>
+                    <TextBlock Text="Общий объём (шт)" Foreground="#B0B0B0" FontSize="12" TextWrapping="Wrap"/>
+                    <TextBlock x:Name="TxtTotalStock" Text="0" FontSize="24" FontWeight="Bold" Foreground="#00E676"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="2" Background="#2C2C2C" CornerRadius="10" Padding="15" Margin="0,0,10,0">
+                <StackPanel>
+                    <TextBlock Text="Общая стоимость" Foreground="#B0B0B0" FontSize="12" TextWrapping="Wrap"/>
+                    <TextBlock x:Name="TxtTotalValue" Text="0 BYN" FontSize="24" FontWeight="Bold" Foreground="#FF9100"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="3" Background="#2C2C2C" CornerRadius="10" Padding="15">
+                <StackPanel>
+                    <TextBlock Text="Низкий остаток (&lt;100)" Foreground="#B0B0B0" FontSize="12" TextWrapping="Wrap"/>
+                    <TextBlock x:Name="TxtLowStock" Text="0" FontSize="24" FontWeight="Bold" Foreground="#FF1744"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Панель управления -->
+        <Border Grid.Row="1" Background="#2C2C2C" CornerRadius="10" Padding="15" Margin="0,0,0,15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Поиск:" VerticalAlignment="Center" Margin="0,0,10,0" Foreground="White"/>
+                <TextBox Grid.Column="1" x:Name="TxtSearch" Padding="8,6" 
+                         Background="#1E1E1E" Foreground="White" BorderBrush="#444"
+                         TextChanged="TxtSearch_TextChanged"/>
+
+                <CheckBox Grid.Column="3" x:Name="ChkLowStock" Content="Только низкий остаток" 
+                          Foreground="White" VerticalAlignment="Center" Margin="20,0,0,0"
+                          Checked="ChkLowStock_Changed" Unchecked="ChkLowStock_Changed"/>
+
+                <Button Grid.Column="4" Content="Приход" Click="BtnIncome_Click"
+                        Background="#00E676" Foreground="White" Padding="15,8" Margin="20,0,10,0"
+                        BorderThickness="0" Cursor="Hand"/>
+
+                <Button Grid.Column="5" Content="Расход" Click="BtnExpense_Click"
+                        Background="#FF9100" Foreground="White" Padding="15,8"
+                        BorderThickness="0" Cursor="Hand"/>
+            </Grid>
+        </Border>
+
+        <!-- Таблица сырья (БЕЗ ИЗМЕНЕНИЙ) -->
+        <Border Grid.Row="2" Background="#2C2C2C" CornerRadius="10" Padding="5">
+            <DataGrid x:Name="WarehouseGrid" AutoGenerateColumns="False" 
+                      IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False"
+                      Background="#1E1E1E" Foreground="White"
+                      HeadersVisibility="Column" GridLinesVisibility="Horizontal"
+                      HorizontalGridLinesBrush="#444"
+                      RowBackground="#1E1E1E" AlternatingRowBackground="#252525"
+                      SelectionMode="Single">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="60"/>
+                    <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*"/>
+                    <DataGridTextColumn Header="Материал" Binding="{Binding Material}" Width="120"/>
+                    <DataGridTextColumn Header="Габариты" Binding="{Binding Dimensions}" Width="120"/>
+                    <DataGridTextColumn Header="Цена" Binding="{Binding Price, StringFormat={}{0:N2}}" Width="100"/>
+                    <DataGridTextColumn Header="Остаток" Binding="{Binding Stock}" Width="80"/>
+                    <DataGridTextColumn Header="Описание" Binding="{Binding Description}" Width="200"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+    </Grid>
+</Page>
